@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sealcode - Confirmación de Presupuesto</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Barlow', sans-serif; background: #f5f5f5; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&family=Barlow+Condensed:wght@700&display=swap');
+.card { background: #fff; max-width: 520px; width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+.orange-bar { height: 3px; background: #E8640A; }
+.header { background: #1a1a1a; padding: 24px 32px; }
+.logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; letter-spacing: 1px; color: #fff; }
+.logo-text span { color: #E8640A; }
+.logo-sub { font-size: 10px; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+.body { padding: 40px 32px; text-align: center; }
+.icon-wrap { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 36px; }
+.aprobado .icon-wrap { background: #eaf3de; }
+.rechazado .icon-wrap { background: #fcebeb; }
+.title { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 12px; }
+.aprobado .title { color: #3B6D11; }
+.rechazado .title { color: #A32D2D; }
+.msg { font-size: 14px; color: #555; line-height: 1.7; max-width: 380px; margin: 0 auto 28px; }
+hr { border: none; border-top: 1px solid #eee; margin: 24px 0; }
+.contact { font-size: 13px; color: #777; line-height: 1.8; }
+.contact a { color: #E8640A; text-decoration: none; }
+.footer { background: #f9f9f9; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #eee; }
+.footer-text { font-size: 11px; color: #999; }
+.footer a { color: #E8640A; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <div class="orange-bar"></div>
+  <div class="header">
+    <div class="logo-text"><span>SEAL</span>CODE</div>
+    <div class="logo-sub">Codificación Ink Jet</div>
+  </div>
+  <div class="body">
+    <div class="icon-wrap" id="icon">✓</div>
+    <div class="title" id="title">PRESUPUESTO CONFIRMADO</div>
+    <p class="msg" id="msg">A la brevedad le enviaremos la factura correspondiente. Gracias por confiar en Sealcode Argentina.</p>
+    <hr>
+    <div class="contact">
+      ¿Consultas? Escríbanos a <a href="mailto:cobranzas.st@sealcode.com">cobranzas.st@sealcode.com</a><br>
+      o al <a href="tel:+5491163785627">+54 9 11 6378-5627</a>
+    </div>
+  </div>
+  <div class="footer">
+    <span class="footer-text">Sealcode Argentina S.A. · CUIT 33-70818602-9</span>
+    <span class="footer-text"><a href="https://www.sealcode.com">sealcode.com</a></span>
+  </div>
+</div>
+<script>
+const params = new URLSearchParams(window.location.search);
+const estado = params.get('estado');
+if (estado === 'rechazado') {
+  document.getElementById('card').classList.add('rechazado');
+  document.getElementById('icon').textContent = '✗';
+  document.getElementById('title').textContent = 'PRESUPUESTO RECHAZADO';
+  document.getElementById('msg').textContent = 'Le pedimos que se comunique con nosotros para informarnos el motivo y poder asistirle.';
+} else {
+  document.getElementById('card').classList.add('aprobado');
+}
+</script>
+</body>
+</html>
