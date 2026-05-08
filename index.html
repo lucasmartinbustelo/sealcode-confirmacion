@@ -41,7 +41,10 @@ hr { border: none; border-top: 1px solid #3a3a3a; margin: 24px 0;}
     <div class="icon-wrap" id="icon">✓</div>
     <div class="title" id="title">PRESUPUESTO CONFIRMADO</div> <div style="font-size:13px;color:#888;margin-bottom:16px;" id="numero-presupuesto"></div> <div style="font-size:13px;color:#888;margin-bottom:16px;" id="numero-presupuesto"></div>
     <p class="msg" id="msg">A la brevedad le enviaremos la factura correspondiente. Gracias por confiar en Sealcode Argentina.</p>
-    <hr>
+    <hr><div id="cambiar-wrap" style="display:none;margin-bottom:16px;">
+  <a id="cambiar-btn" href="#" style="font-size:12px;color:#888;text-decoration:underline;"></a>
+</div>
+<hr>
     <div class="contact">
       ¿Consultas? Escríbanos a <a href="mailto:cobranzas.st@sealcode.com">cobranzas.st@sealcode.com</a><br>
       o al <a href="tel:+5491163785627">+54 9 11 6378-5627</a>
@@ -54,8 +57,12 @@ hr { border: none; border-top: 1px solid #3a3a3a; margin: 24px 0;}
 </div>
 <script>
 const params = new URLSearchParams(window.location.search);
-const estado = params.get('estado');const numero = params.get('numero');
+const estado = params.get('estado');
+const numero = params.get('numero');
+const cambiado = params.get('cambiado');
+
 if (numero) document.getElementById('numero-presupuesto').textContent = 'Presupuesto #' + numero;
+
 if (estado === 'rechazado') {
   document.getElementById('card').classList.add('rechazado');
   document.getElementById('icon').textContent = '✗';
@@ -64,6 +71,11 @@ if (estado === 'rechazado') {
 } else {
   document.getElementById('card').classList.add('aprobado');
 }
-</script>
-</body>
-</html>
+
+if (!cambiado) {
+  const nuevoEstado = estado === 'aprobado' ? 'rechazado' : 'aprobado';
+  const nuevoTexto = estado === 'aprobado' ? 'Quiero rechazar este presupuesto' : 'Quiero aprobar este presupuesto';
+  document.getElementById('cambiar-btn').innerHTML = nuevoTexto;
+  document.getElementById('cambiar-btn').href = 'https://hook.us2.make.com/wlgiebaarw8hshz5d7safrm3upqrnk9t?estado=' + nuevoEstado + '&numero=' + numero + '&cambiado=si';
+  document.getElementById('cambiar-wrap').style.display = 'block';
+}
