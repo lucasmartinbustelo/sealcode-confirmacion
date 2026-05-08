@@ -84,7 +84,7 @@ if (procesado) {
   document.getElementById('card').classList.add('aprobado');
 }
 
-if (!cambiado && !procesado) {
+if ((!cambiado || cambiado === '') && !procesado) {
   const nuevoEstado = estado === 'aprobado' ? 'rechazado' : 'aprobado';
   document.getElementById('cambiar-btn').textContent = 'Deseo modificar mi respuesta';
   document.getElementById('cambiar-btn').href = 'https://hook.us2.make.com/wlgiebaarw8hshz5d7safrm3upqrnk9t?estado=' + nuevoEstado + '&numero=' + numero + '&cambiado=si';
