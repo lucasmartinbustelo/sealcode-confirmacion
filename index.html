@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sealcode - Confirmación de Presupuesto</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Barlow', sans-serif; background: #1e1e1e; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; }
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&family=Barlow+Condensed:wght@700&display=swap');
 .card { background: #2a2a2a; max-width: 520px; width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
 .orange-bar { height: 3px; background: #E8640A; }
 .header { background: #1a1a1a; padding: 24px 32px; }
@@ -16,13 +16,16 @@ body { font-family: 'Barlow', sans-serif; background: #1e1e1e; min-height: 100vh
 .logo-sub { font-size: 10px; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
 .body { padding: 40px 32px; text-align: center; }
 .icon-wrap { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 36px; }
-.aprobado .icon-wrap { background: #1a2e12; }
-.rechazado .icon-wrap { background: #2e1212; }
-.title { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 12px; }
+.aprobado .icon-wrap { background: #1a2e12; color: #7dc455; }
+.rechazado .icon-wrap { background: #2e1212; color: #e06060; }
+.title { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; color: #fff; }
 .aprobado .title { color: #7dc455; }
 .rechazado .title { color: #e06060; }
+.numero { font-size: 13px; color: #888; margin-bottom: 16px; }
 .msg { font-size: 14px; color: #aaa; line-height: 1.7; max-width: 380px; margin: 0 auto 28px; }
-hr { border: none; border-top: 1px solid #3a3a3a; margin: 24px 0;}
+hr { border: none; border-top: 1px solid #3a3a3a; margin: 24px 0; }
+.cambiar-wrap { margin-bottom: 16px; }
+.cambiar-btn { font-size: 12px; color: #888; text-decoration: underline; }
 .contact { font-size: 13px; color: #aaa; line-height: 1.8; }
 .contact a { color: #E8640A; text-decoration: none; }
 .footer { background: #222; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #333; }
@@ -39,12 +42,13 @@ hr { border: none; border-top: 1px solid #3a3a3a; margin: 24px 0;}
   </div>
   <div class="body">
     <div class="icon-wrap" id="icon">✓</div>
-    <div class="title" id="title">PRESUPUESTO CONFIRMADO</div> <div style="font-size:13px;color:#888;margin-bottom:16px;" id="numero-presupuesto"></div> <div style="font-size:13px;color:#888;margin-bottom:16px;" id="numero-presupuesto"></div>
+    <div class="title" id="title">PRESUPUESTO CONFIRMADO</div>
+    <div class="numero" id="numero-presupuesto"></div>
     <p class="msg" id="msg">A la brevedad le enviaremos la factura correspondiente. Gracias por confiar en Sealcode Argentina.</p>
-    <hr><div id="cambiar-wrap" style="display:none;margin-bottom:16px;">
-  <a id="cambiar-btn" href="#" style="font-size:12px;color:#888;text-decoration:underline;"></a>
-</div>
-<hr>
+    <hr>
+    <div class="cambiar-wrap" id="cambiar-wrap" style="display:none;">
+      <a id="cambiar-btn" href="#" class="cambiar-btn"></a>
+    </div>
     <div class="contact">
       ¿Consultas? Escríbanos a <a href="mailto:cobranzas.st@sealcode.com">cobranzas.st@sealcode.com</a><br>
       o al <a href="tel:+5491163785627">+54 9 11 6378-5627</a>
@@ -75,7 +79,10 @@ if (estado === 'rechazado') {
 if (!cambiado) {
   const nuevoEstado = estado === 'aprobado' ? 'rechazado' : 'aprobado';
   const nuevoTexto = estado === 'aprobado' ? 'Quiero rechazar este presupuesto' : 'Quiero aprobar este presupuesto';
-  document.getElementById('cambiar-btn').innerHTML = nuevoTexto;
+  document.getElementById('cambiar-btn').textContent = nuevoTexto;
   document.getElementById('cambiar-btn').href = 'https://hook.us2.make.com/wlgiebaarw8hshz5d7safrm3upqrnk9t?estado=' + nuevoEstado + '&numero=' + numero + '&cambiado=si';
   document.getElementById('cambiar-wrap').style.display = 'block';
 }
+</script>
+</body>
+</html>
