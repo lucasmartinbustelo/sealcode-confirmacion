@@ -39,7 +39,7 @@ hr { border: none; border-top: 1px solid #3a3a3a; margin: 24px 0;}
   </div>
   <div class="body">
     <div class="icon-wrap" id="icon">✓</div>
-    <div class="title" id="title">PRESUPUESTO CONFIRMADO</div>
+    <div class="title" id="title">PRESUPUESTO CONFIRMADO</div> <div style="font-size:13px;color:#888;margin-bottom:16px;" id="numero-presupuesto"></div> <div style="font-size:13px;color:#888;margin-bottom:16px;" id="numero-presupuesto"></div>
     <p class="msg" id="msg">A la brevedad le enviaremos la factura correspondiente. Gracias por confiar en Sealcode Argentina.</p>
     <hr>
     <div class="contact">
@@ -54,7 +54,8 @@ hr { border: none; border-top: 1px solid #3a3a3a; margin: 24px 0;}
 </div>
 <script>
 const params = new URLSearchParams(window.location.search);
-const estado = params.get('estado');
+const estado = params.get('estado');const numero = params.get('numero');
+if (numero) document.getElementById('numero-presupuesto').textContent = 'Presupuesto #' + numero;
 if (estado === 'rechazado') {
   document.getElementById('card').classList.add('rechazado');
   document.getElementById('icon').textContent = '✗';
