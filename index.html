@@ -64,10 +64,18 @@ const params = new URLSearchParams(window.location.search);
 const estado = params.get('estado');
 const numero = params.get('numero');
 const cambiado = params.get('cambiado');
+const procesado = params.get('procesado');
 
 if (numero) document.getElementById('numero-presupuesto').textContent = 'Presupuesto #' + numero;
 
-if (estado === 'rechazado') {
+if (procesado) {
+  document.getElementById('icon').textContent = '⚠';
+  document.getElementById('icon').style.cssText = 'width:72px;height:72px;border-radius:50%;background:#2d1e0f;border:2px solid #E8640A;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:32px;color:#E8640A;';
+  document.getElementById('title').textContent = 'PRESUPUESTO YA PROCESADO';
+  document.getElementById('title').style.color = '#E8640A';
+  document.getElementById('numero-presupuesto').style.cssText = 'font-size:15px;font-weight:500;color:#fff;margin-bottom:16px;background:#333;display:inline-block;padding:4px 16px;border-radius:20px;border:1px solid #E8640A;';
+  document.getElementById('msg').textContent = 'Este presupuesto ya fue procesado y no puede modificarse. Si tiene alguna consulta, no dude en contactarnos.';
+} else if (estado === 'rechazado') {
   document.getElementById('card').classList.add('rechazado');
   document.getElementById('icon').textContent = '✗';
   document.getElementById('title').textContent = 'PRESUPUESTO RECHAZADO';
@@ -76,13 +84,9 @@ if (estado === 'rechazado') {
   document.getElementById('card').classList.add('aprobado');
 }
 
-if (!cambiado) {
+if (!cambiado && !procesado) {
   const nuevoEstado = estado === 'aprobado' ? 'rechazado' : 'aprobado';
-  const nuevoTexto = 'Deseo modificar mi respuesta';
-  document.getElementById('cambiar-btn').textContent = nuevoTexto;
+  document.getElementById('cambiar-btn').textContent = 'Deseo modificar mi respuesta';
   document.getElementById('cambiar-btn').href = 'https://hook.us2.make.com/wlgiebaarw8hshz5d7safrm3upqrnk9t?estado=' + nuevoEstado + '&numero=' + numero + '&cambiado=si';
   document.getElementById('cambiar-wrap').style.display = 'block';
 }
-</script>
-</body>
-</html>
