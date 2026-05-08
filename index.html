@@ -60,11 +60,20 @@ hr { border: none; border-top: 1px solid #3a3a3a; margin: 24px 0; }
   </div>
 </div>
 <script>
-const params = new URLSearchParams(window.location.search);
-const estado = params.get('estado');
-const numero = params.get('numero');
-const cambiado = params.get('cambiado');
-const procesado = params.get('procesado');
+function getParam(name) {
+  const url = window.location.href;
+  name = name.replace(/[\[\]]/g, '\\$&');
+  const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+  const results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+const estado = getParam('estado');
+const numero = getParam('numero');
+const cambiado = getParam('cambiado');
+const procesado = getParam('procesado');
 
 if (numero) document.getElementById('numero-presupuesto').textContent = 'Presupuesto #' + numero;
 
@@ -80,13 +89,14 @@ if (procesado) {
   document.getElementById('icon').textContent = '✗';
   document.getElementById('title').textContent = 'PRESUPUESTO RECHAZADO';
   document.getElementById('msg').textContent = 'Le pedimos que se comunique con nosotros para informarnos el motivo y poder asistirle.';
-} else {
+} else if (estado === 'aprobado') {
   document.getElementById('card').classList.add('aprobado');
 }
 
-if ((!cambiado || cambiado === '') && !procesado) {
+if (estado && !cambiado && !procesado) {
   const nuevoEstado = estado === 'aprobado' ? 'rechazado' : 'aprobado';
   document.getElementById('cambiar-btn').textContent = 'Deseo modificar mi respuesta';
   document.getElementById('cambiar-btn').href = 'https://hook.us2.make.com/wlgiebaarw8hshz5d7safrm3upqrnk9t?estado=' + nuevoEstado + '&numero=' + numero + '&cambiado=si';
   document.getElementById('cambiar-wrap').style.display = 'block';
 }
+</script>
