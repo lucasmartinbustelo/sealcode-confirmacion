@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sealcode — Motivo de rechazo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#1a1a1a;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:#2a2a2a;border-radius:12px;padding:40px 32px;max-width:560px;width:100%;border-top:3px solid #E8640A}
+.logo{text-align:center;margin-bottom:28px}
+.logo-t{color:#E8640A;font-size:22px;font-weight:700;letter-spacing:1px}
+.logo-s{color:#888;font-size:10px;letter-spacing:2px;text-align:center}
+h2{color:#fff;font-size:18px;font-weight:600;margin-bottom:8px;text-align:center}
+.sub{color:#aaa;font-size:13px;text-align:center;margin-bottom:28px;line-height:1.6}
+.num{display:inline-block;background:#E8640A;color:#fff;font-size:12px;font-weight:700;padding:3px 12px;border-radius:20px;margin-bottom:20px}
+.btns{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.btn{display:block;width:100%;padding:14px 20px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;text-align:center;color:#fff;background:#333;border:1px solid #444;transition:background .2s}
+.btn:hover{background:#E8640A;border-color:#E8640A}
+.divider{border:none;border-top:1px solid #444;margin:20px 0}
+.contacto{color:#888;font-size:12px;text-align:center;line-height:1.8}
+.contacto a{color:#E8640A;text-decoration:none}
+.gracias{display:none;text-align:center;padding:20px 0}
+.gracias h2{color:#E8640A;margin-bottom:8px}
+.gracias p{color:#aaa;font-size:13px}
+.ftr{text-align:center;margin-top:28px;color:#555;font-size:11px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="logo-t">SEAL<span style="color:#fff">CODE</span></div>
+    <div class="logo-s">CODIFICACIÓN INK JET</div>
+  </div>
+
+  <div id="form">
+    <div style="text-align:center">
+      <span class="num" id="numBadge">Presupuesto #—</span>
+    </div>
+    <h2>¿Podría indicarnos el motivo?</h2>
+    <p class="sub">Hemos registrado su decisión. Para brindarle una mejor atención, le pedimos que nos indique brevemente el motivo del rechazo.</p>
+
+    <div class="btns">
+      <a class="btn" href="#" onclick="enviar('El precio no coincide con lo acordado')">El precio no coincide con lo acordado</a>
+      <a class="btn" href="#" onclick="enviar('Requiere revisión o aprobación interna')">Requiere revisión o aprobación interna</a>
+      <a class="btn" href="#" onclick="enviar('Disconformidad con el servicio realizado')">Disconformidad con el servicio realizado</a>
+      <a class="btn" href="#" onclick="enviar('Error en los datos del presupuesto')">Error en los datos del presupuesto</a>
+      <a class="btn" href="#" onclick="enviar('Otro motivo')">Otro motivo</a>
+    </div>
+
+    <hr class="divider">
+    <p class="contacto">
+      ¿Prefiere explicarnos en detalle o que nos comuniquemos con usted?<br>
+      Escríbanos a <a href="mailto:cobranzas.st@sealcode.com">cobranzas.st@sealcode.com</a><br>
+      o llámenos al <a href="tel:+5491163785627">+54 9 11 6378-5627</a>
+    </p>
+  </div>
+
+  <div class="gracias" id="gracias">
+    <h2>¡Gracias por su respuesta!</h2>
+    <p>Hemos registrado su comentario.<br>Nuestro equipo se pondrá en contacto a la brevedad.</p>
+  </div>
+
+  <div class="ftr">Sealcode Argentina S.A. · CUIT 33-70818602-9 · <a href="https://sealcode.com" style="color:#555">sealcode.com</a></div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const numero = params.get('numero') || '—';
+document.getElementById('numBadge').textContent = 'Presupuesto #' + numero;
+
+function enviar(motivo) {
+  const numero = params.get('numero') || '';
+  const url = 'https://hook.us2.make.com/v056vunhfsj7ti6ihs5ljbxuf38hgscl?numero=' + encodeURIComponent(numero) + '&motivo=' + encodeURIComponent(motivo);
+  fetch(url).then(() => {
+    document.getElementById('form').style.display = 'none';
+    document.getElementById('gracias').style.display = 'block';
+  }).catch(() => {
+    document.getElementById('form').style.display = 'none';
+    document.getElementById('gracias').style.display = 'block';
+  });
+  return false;
+}
+</script>
+</body>
+</html>
