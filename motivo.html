@@ -15,14 +15,12 @@ h2{color:#fff;font-size:18px;font-weight:600;margin-bottom:8px;text-align:center
 .sub{color:#aaa;font-size:13px;text-align:center;margin-bottom:28px;line-height:1.6}
 .num{display:inline-block;background:#E8640A;color:#fff;font-size:12px;font-weight:700;padding:3px 12px;border-radius:20px;margin-bottom:20px}
 .btns{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
-.btn{display:block;width:100%;padding:14px 20px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;text-align:center;color:#fff;background:#333;border:1px solid #444;transition:background .2s}
+.btn{display:block;width:100%;padding:14px 20px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;text-align:center;color:#fff;background:#333;border:1px solid #444;transition:background .2s;cursor:pointer}
 .btn:hover{background:#E8640A;border-color:#E8640A}
 .divider{border:none;border-top:1px solid #444;margin:20px 0}
 .contacto{color:#888;font-size:12px;text-align:center;line-height:1.8}
 .contacto a{color:#E8640A;text-decoration:none}
 .gracias{display:none;text-align:center;padding:20px 0}
-.gracias h2{color:#E8640A;margin-bottom:8px}
-.gracias p{color:#aaa;font-size:13px}
 .ftr{text-align:center;margin-top:28px;color:#555;font-size:11px}
 </style>
 </head>
@@ -41,11 +39,11 @@ h2{color:#fff;font-size:18px;font-weight:600;margin-bottom:8px;text-align:center
     <p class="sub">Hemos registrado su decisión. Para brindarle una mejor atención, le pedimos que nos indique brevemente el motivo del rechazo.</p>
 
     <div class="btns">
-      <a class="btn" href="#" onclick="enviar('El precio no coincide con lo acordado')">El precio no coincide con lo acordado</a>
-      <a class="btn" href="#" onclick="enviar('Requiere revisión o aprobación interna')">Requiere revisión o aprobación interna</a>
-      <a class="btn" href="#" onclick="enviar('Disconformidad con el servicio realizado')">Disconformidad con el servicio realizado</a>
-      <a class="btn" href="#" onclick="enviar('Error en los datos del presupuesto')">Error en los datos del presupuesto</a>
-      <a class="btn" href="#" onclick="enviar('Otro motivo')">Otro motivo</a>
+      <a class="btn" href="#" onclick="enviar('El precio no coincide con lo acordado');return false;">El precio no coincide con lo acordado</a>
+      <a class="btn" href="#" onclick="enviar('Requiere revisión o aprobación interna');return false;">Requiere revisión o aprobación interna</a>
+      <a class="btn" href="#" onclick="enviar('Disconformidad con el servicio realizado');return false;">Disconformidad con el servicio realizado</a>
+      <a class="btn" href="#" onclick="enviar('Error en los datos del presupuesto');return false;">Error en los datos del presupuesto</a>
+      <a class="btn" href="#" onclick="enviar('Otro motivo');return false;">Otro motivo</a>
     </div>
 
     <hr class="divider">
@@ -57,8 +55,16 @@ h2{color:#fff;font-size:18px;font-weight:600;margin-bottom:8px;text-align:center
   </div>
 
   <div class="gracias" id="gracias">
-    <h2>¡Gracias por su respuesta!</h2>
-    <p>Hemos registrado su comentario.<br>Nuestro equipo se pondrá en contacto a la brevedad.</p>
+    <div style="width:64px;height:64px;background:#E8640A;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px auto">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <h2 style="color:#fff;font-size:20px;margin-bottom:10px">Respuesta registrada</h2>
+    <p style="color:#aaa;font-size:13px;line-height:1.8">Gracias por tomarse el tiempo de indicarnos el motivo.<br>Nuestro equipo se pondrá en contacto a la brevedad<br>para encontrar la mejor solución.</p>
+    <div style="margin-top:24px;padding:16px;background:#333;border-radius:8px;border-left:3px solid #E8640A">
+      <p style="color:#aaa;font-size:12px;margin:0">¿Tiene alguna consulta adicional?<br>
+      <a href="mailto:cobranzas.st@sealcode.com" style="color:#E8640A;text-decoration:none">cobranzas.st@sealcode.com</a> · 
+      <a href="tel:+5491163785627" style="color:#E8640A;text-decoration:none">+54 9 11 6378-5627</a></p>
+    </div>
   </div>
 
   <div class="ftr">Sealcode Argentina S.A. · CUIT 33-70818602-9 · <a href="https://sealcode.com" style="color:#555">sealcode.com</a></div>
@@ -79,7 +85,6 @@ function enviar(motivo) {
     document.getElementById('form').style.display = 'none';
     document.getElementById('gracias').style.display = 'block';
   });
-  return false;
 }
 </script>
 </body>
