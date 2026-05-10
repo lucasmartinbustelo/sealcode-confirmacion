@@ -77,8 +77,11 @@ document.getElementById('numBadge').textContent = 'Presupuesto #' + numero;
 
 function enviar(motivo) {
   const numero = params.get('numero') || '';
-  const url = 'https://hook.us2.make.com/v056vunhfsj7ti6ihs5ljbxuf38hgscl?numero=' + encodeURIComponent(numero) + '&motivo=' + encodeURIComponent(motivo);
-  fetch(url).then(() => {
+  fetch('https://hook.us2.make.com/v056vunhfsj7ti6ihs5ljbxuf38hgscl', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({numero: numero, motivo: motivo})
+  }).then(() => {
     document.getElementById('form').style.display = 'none';
     document.getElementById('gracias').style.display = 'block';
   }).catch(() => {
