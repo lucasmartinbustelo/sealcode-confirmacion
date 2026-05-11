@@ -17,11 +17,18 @@ h2{color:#fff;font-size:18px;font-weight:600;margin-bottom:8px;text-align:center
 .btns{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
 .btn{display:block;width:100%;padding:14px 20px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;text-align:center;color:#fff;background:#333;border:1px solid #444;transition:background .2s;cursor:pointer}
 .btn:hover{background:#E8640A;border-color:#E8640A}
+.btn.active{background:#E8640A;border-color:#E8640A}
 .divider{border:none;border-top:1px solid #444;margin:20px 0}
 .contacto{color:#888;font-size:12px;text-align:center;line-height:1.8}
 .contacto a{color:#E8640A;text-decoration:none}
 .gracias{display:none;text-align:center;padding:20px 0}
 .ftr{text-align:center;margin-top:28px;color:#555;font-size:11px}
+.otro-detalle{display:none;flex-direction:column;gap:10px;margin-top:4px}
+.otro-detalle textarea{width:100%;background:#333;border:1px solid #555;border-radius:8px;color:#fff;font-size:14px;font-family:Arial,sans-serif;padding:12px;resize:vertical;min-height:90px;outline:none;transition:border-color .2s}
+.otro-detalle textarea:focus{border-color:#E8640A}
+.otro-detalle textarea::placeholder{color:#666}
+.btn-enviar{background:#E8640A;border-color:#E8640A}
+.btn-enviar:hover{background:#c9530a;border-color:#c9530a}
 </style>
 </head>
 <body>
@@ -39,11 +46,15 @@ h2{color:#fff;font-size:18px;font-weight:600;margin-bottom:8px;text-align:center
     <p class="sub">Hemos registrado su decisión. Para brindarle una mejor atención, le pedimos que nos indique brevemente el motivo del rechazo.</p>
 
     <div class="btns">
-      <a class="btn" href="#" onclick="enviar('El precio no coincide con lo acordado');return false;">El precio no coincide con lo acordado</a>
-      <a class="btn" href="#" onclick="enviar('Requiere revisión o aprobación interna');return false;">Requiere revisión o aprobación interna</a>
-      <a class="btn" href="#" onclick="enviar('Disconformidad con el servicio realizado');return false;">Disconformidad con el servicio realizado</a>
-      <a class="btn" href="#" onclick="enviar('Error en los datos del presupuesto');return false;">Error en los datos del presupuesto</a>
-      <a class="btn" href="#" onclick="enviar('Otro motivo');return false;">Otro motivo</a>
+      <a class="btn" href="#" onclick="seleccionar(this,'El precio no coincide con lo acordado');return false;">El precio no coincide con lo acordado</a>
+      <a class="btn" href="#" onclick="seleccionar(this,'Requiere revisión o aprobación interna');return false;">Requiere revisión o aprobación interna</a>
+      <a class="btn" href="#" onclick="seleccionar(this,'Disconformidad con el servicio realizado');return false;">Disconformidad con el servicio realizado</a>
+      <a class="btn" href="#" onclick="seleccionar(this,'Error en los datos del presupuesto');return false;">Error en los datos del presupuesto</a>
+      <a class="btn" id="btn-otro" href="#" onclick="seleccionarOtro(this);return false;">Otro motivo</a>
+      <div class="otro-detalle" id="otro-detalle">
+        <textarea id="otro-texto" placeholder="¿Podría describirlo brevemente? (opcional)"></textarea>
+        <a class="btn btn-enviar" href="#" onclick="enviarOtro();return false;">Enviar</a>
+      </div>
     </div>
 
     <hr class="divider">
@@ -75,19 +86,43 @@ const params = new URLSearchParams(window.location.search);
 const numero = params.get('numero') || '—';
 document.getElementById('numBadge').textContent = 'Presupuesto #' + numero;
 
-function enviar(motivo) {
-  const numero = params.get('numero') || '';
+function mostrarGracias() {
+  document.getElementById('form').style.display = 'none';
+  document.getElementById('gracias').style.display = 'block';
+}
+
+function enviar(motivo, detalle) {
+  const num = params.get('numero') || '';
+  const motivoFinal = detalle ? motivo + ': ' + detalle : motivo;
   fetch('https://hook.us2.make.com/v056vunhfsj7ti6ihs5ljbxuf38hgscl', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({numero: numero, motivo: motivo})
-  }).then(() => {
-    document.getElementById('form').style.display = 'none';
-    document.getElementById('gracias').style.display = 'block';
-  }).catch(() => {
-    document.getElementById('form').style.display = 'none';
-    document.getElementById('gracias').style.display = 'block';
-  });
+    body: JSON.stringify({numero: num, motivo: motivoFinal})
+  }).then(mostrarGracias).catch(mostrarGracias);
+}
+
+function seleccionar(btn, motivo) {
+  document.getElementById('otro-detalle').style.display = 'none';
+  document.getElementById('btn-otro').classList.remove('active');
+  enviar(motivo);
+}
+
+function seleccionarOtro(btn) {
+  const detalle = document.getElementById('otro-detalle');
+  const abierto = detalle.style.display === 'flex';
+  if (abierto) {
+    detalle.style.display = 'none';
+    btn.classList.remove('active');
+  } else {
+    detalle.style.display = 'flex';
+    btn.classList.add('active');
+    document.getElementById('otro-texto').focus();
+  }
+}
+
+function enviarOtro() {
+  const texto = document.getElementById('otro-texto').value.trim();
+  enviar('Otro motivo', texto || null);
 }
 </script>
 </body>
