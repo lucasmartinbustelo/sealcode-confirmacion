@@ -18,18 +18,14 @@
   .label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.7px;font-weight:500;margin-bottom:8px}
   .input-wrap{position:relative;margin-bottom:20px}
   .prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#555;font-size:15px;font-weight:500;pointer-events:none}
-  input{width:100%;background:#252525;border:1.5px solid #333;border-radius:8px;padding:12px 14px 12px 28px;font-size:15px;color:#eee;outline:none;transition:border .2s}
-  input::placeholder{color:#444}
-  input:focus{border-color:#E8640A}
+  input[type=text]{width:100%;background:#252525;border:1.5px solid #333;border-radius:8px;padding:12px 14px 12px 28px;font-size:15px;color:#eee;outline:none;transition:border .2s}
+  input[type=text]::placeholder{color:#444}
+  input[type=text]:focus{border-color:#E8640A}
   .nota{background:#1f1208;border:1px solid #4a2800;border-radius:8px;padding:12px 14px;margin-bottom:22px}
   .nota p{font-size:12px;color:#d4854a;line-height:1.65}
-  .btn{width:100%;background:#E8640A;color:#fff;border:none;border-radius:8px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s,transform .1s;letter-spacing:.3px}
-  .btn:hover{background:#d4560a}
-  .btn:active{transform:scale(.98)}
-  .btn:disabled{background:#4a2800;color:#8a5030;cursor:not-allowed}
-  .estado{margin-top:16px;padding:12px 14px;border-radius:8px;font-size:13px;text-align:center;display:none;line-height:1.5}
-  .estado.ok{background:#0a2018;border:1px solid #1a5035;color:#4ecb8a}
-  .estado.err{background:#1f0808;border:1px solid #4a1515;color:#e06060}
+  input[type=submit]{width:100%;background:#E8640A;color:#fff;border:none;border-radius:8px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:.3px}
+  input[type=submit]:hover{background:#d4560a}
+  input[type=submit]:active{transform:scale(.98)}
   .ftr{padding:16px 24px;border-top:1px solid #222;display:flex;justify-content:space-between;align-items:center}
   .ftr span{font-size:11px;color:#444}
   .ftr a{font-size:11px;color:#E8640A;text-decoration:none}
@@ -48,53 +44,22 @@
     </div>
   </div>
   <div class="body">
-    <div class="label">Número de informe</div>
-    <div class="input-wrap">
-      <span class="prefix">#</span>
-      <input type="text" id="nro" placeholder="Ej: 12418" autocomplete="off">
-    </div>
-    <div class="nota">
-      <p>Solo aprobar informes que ya fueron revisados. Una vez enviado, el sistema generará y enviará el presupuesto automáticamente al cliente.</p>
-    </div>
-    <button class="btn" id="btn" onclick="enviar()">Enviar a presupuesto</button>
-    <div class="estado ok" id="ok">Informe enviado correctamente. El presupuesto se generará en instantes.</div>
-    <div class="estado err" id="err">Error al enviar. Verificá el número de informe e intentá nuevamente.</div>
+    <form action="https://hook.us2.make.com/apqpua1cwgfprmkjm4iy21uhpbqfa3pi" method="GET" target="_blank">
+      <div class="label">Número de informe</div>
+      <div class="input-wrap">
+        <span class="prefix">#</span>
+        <input type="text" name="numero" placeholder="Ej: 12418" autocomplete="off" required>
+      </div>
+      <div class="nota">
+        <p>Solo aprobar informes que ya fueron revisados. Una vez enviado, el sistema generará y enviará el presupuesto automáticamente al cliente.</p>
+      </div>
+      <input type="submit" value="Enviar a presupuesto">
+    </form>
   </div>
   <div class="ftr">
     <span>Sealcode Argentina S.A.</span>
     <a href="https://www.sealcode.com" target="_blank">sealcode.com</a>
   </div>
 </div>
-<script>
-function enviar(){
-  var nro=document.getElementById('nro').value.trim();
-  if(!nro){document.getElementById('nro').focus();return;}
-  var btn=document.getElementById('btn');
-  var ok=document.getElementById('ok');
-  var err=document.getElementById('err');
-  ok.style.display='none';
-  err.style.display='none';
-  btn.disabled=true;
-  btn.textContent='Enviando...';
-  var img=new Image();
-  img.onload=function(){
-    ok.style.display='block';
-    document.getElementById('nro').value='';
-    btn.disabled=false;
-    btn.textContent='Enviar a presupuesto';
-  };
-  img.onerror=function(){
-    ok.style.display='block';
-    document.getElementById('nro').value='';
-    btn.disabled=false;
-    btn.textContent='Enviar a presupuesto';
-  };
-  img.src='https://hook.us2.make.com/apqpua1cwgfprmkjm4iy21uhpbqfa3pi?numero='+encodeURIComponent(nro);
-}
-document.getElementById('nro').addEventListener('keydown',function(e){
-  if(e.key==='Enter') enviar();
-});
-</script>
-</script>
 </body>
 </html>
