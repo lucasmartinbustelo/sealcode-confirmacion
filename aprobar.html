@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aprobar informe · Sealcode</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#0f0f0f;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+  .card{background:#1a1a1a;border-radius:16px;max-width:460px;width:100%;overflow:hidden;border:1px solid #2a2a2a}
+  .hdr{background:#E8640A;padding:22px 24px;display:flex;align-items:center;gap:14px}
+  .logo{background:#fff;border-radius:6px;padding:5px 10px;flex-shrink:0}
+  .logo-t{color:#E8640A;font-size:15px;font-weight:700;line-height:1.2}
+  .logo-s{color:#E8640A;font-size:6px;letter-spacing:2px;text-align:center}
+  .hdr-txt h1{color:#fff;font-size:15px;font-weight:600;margin-bottom:2px}
+  .hdr-txt p{color:rgba(255,255,255,.75);font-size:12px}
+  .body{padding:28px}
+  .label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.7px;font-weight:500;margin-bottom:8px}
+  .input-wrap{position:relative;margin-bottom:20px}
+  .prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#555;font-size:15px;font-weight:500;pointer-events:none}
+  input{width:100%;background:#252525;border:1.5px solid #333;border-radius:8px;padding:12px 14px 12px 28px;font-size:15px;color:#eee;outline:none;transition:border .2s}
+  input::placeholder{color:#444}
+  input:focus{border-color:#E8640A}
+  .nota{background:#1f1208;border:1px solid #4a2800;border-radius:8px;padding:12px 14px;margin-bottom:22px}
+  .nota p{font-size:12px;color:#d4854a;line-height:1.65}
+  .btn{width:100%;background:#E8640A;color:#fff;border:none;border-radius:8px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s,transform .1s;letter-spacing:.3px}
+  .btn:hover{background:#d4560a}
+  .btn:active{transform:scale(.98)}
+  .btn:disabled{background:#4a2800;color:#8a5030;cursor:not-allowed}
+  .estado{margin-top:16px;padding:12px 14px;border-radius:8px;font-size:13px;text-align:center;display:none;line-height:1.5}
+  .estado.ok{background:#0a2018;border:1px solid #1a5035;color:#4ecb8a;display:block}
+  .estado.err{background:#1f0808;border:1px solid #4a1515;color:#e06060;display:block}
+  .ftr{padding:16px 24px;border-top:1px solid #222;display:flex;justify-content:space-between;align-items:center}
+  .ftr span{font-size:11px;color:#444}
+  .ftr a{font-size:11px;color:#E8640A;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="hdr">
+    <div class="logo">
+      <div class="logo-t">SEAL<span style="color:#1a1a1a">CODE</span></div>
+      <div class="logo-s">CODIFICACIÓN INK JET</div>
+    </div>
+    <div class="hdr-txt">
+      <h1>Aprobar informe para presupuesto</h1>
+      <p>Revisión interna · Sealcode Argentina</p>
+    </div>
+  </div>
+  <div class="body">
+    <div class="label">Número de informe</div>
+    <div class="input-wrap">
+      <span class="prefix">#</span>
+      <input type="text" id="nro" placeholder="Ej: 12418" autocomplete="off">
+    </div>
+    <div class="nota">
+      <p>Solo aprobar informes que ya fueron revisados. Una vez enviado, el sistema generará y enviará el presupuesto automáticamente al cliente.</p>
+    </div>
+    <button class="btn" id="btn" onclick="enviar()">Enviar a presupuesto</button>
+    <div class="estado ok" id="ok">Informe enviado correctamente. El presupuesto se generará en instantes.</div>
+    <div class="estado err" id="err">Error al enviar. Verificá el número de informe e intentá nuevamente.</div>
+  </div>
+  <div class="ftr">
+    <span>Sealcode Argentina S.A.</span>
+    <a href="https://www.sealcode.com" target="_blank">sealcode.com</a>
+  </div>
+</div>
+<script>
+async function enviar(){
+  var nro=document.getElementById('nro').value.trim();
+  if(!nro){document.getElementById('nro').focus();return;}
+  var btn=document.getElementById('btn');
+  var ok=document.getElementById('ok');
+  var err=document.getElementById('err');
+  ok.style.display='none';
+  err.style.display='none';
+  btn.disabled=true;
+  btn.textContent='Enviando...';
+  try{
+    var res=await fetch('WEBHOOK_URL_AQUI',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({numero:nro})
+    });
+    if(res.ok){
+      ok.style.display='block';
+      document.getElementById('nro').value='';
+    } else {
+      err.style.display='block';
+    }
+  } catch(e){
+    err.style.display='block';
+  }
+  btn.disabled=false;
+  btn.textContent='Enviar a presupuesto';
+}
+document.getElementById('nro').addEventListener('keydown',function(e){
+  if(e.key==='Enter') enviar();
+});
+</script>
+</body>
+</html>
